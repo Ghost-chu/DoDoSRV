@@ -39,17 +39,21 @@ public class DodoManager extends AbstractCacheable {
     }
 
     public Component getMemberHoverComponent(String islandId, Member member) {
-        Component username = Component.text(member.getNickname()).color(TextColor.fromHexString(getMemberPrimaryRole(member).getColor()));
+        Component username = Component.text(member.getNickname());
+        Role primaryRole = getMemberPrimaryRole(member);
+        if (primaryRole != null) {
+            username = username.color(TextColor.fromHexString(primaryRole.getColor()));
+        }
         Component level = Component.text(member.getLevel());
         Component onlineStatus = getMemberOnlineStatusComponent(member);
         Component ranks = getMemberRanksComponent(islandId, member);
-       return plugin.text().of("sender-name-hover", username, level, onlineStatus, ranks).component();
+        return plugin.text().of("sender-name-hover", username, level, onlineStatus, ranks).component();
     }
 
     public Component getMemberRanksComponent(String islandId, Member member) {
         Component[] components = member.getRoles().stream()
                 .filter(role -> role.getIslandId().equals(islandId))
-                .map(role -> Component.text(role.getName()).color(TextColor.fromHexString( role.getColor()))).toArray(Component[]::new);
+                .map(role -> Component.text(role.getName()).color(TextColor.fromHexString(role.getColor()))).toArray(Component[]::new);
         return Component.join(JoinConfiguration.separator(Component.text(" ")), components);
     }
 
