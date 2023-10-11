@@ -99,8 +99,8 @@ public final class DoDoSRV extends JavaPlugin {
     }
 
     public void sendCardMessageToDefChannel(String json) {
-        String finalJson = JsonUtil.regular().toJson(new JsonParser().parse(json));
-        Util.asyncThreadRun(() -> {
+        Bukkit.getScheduler().runTaskAsynchronously(this,()->{
+            String finalJson = JsonUtil.regular().toJson(new JsonParser().parse(json));
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
             if (!(channel instanceof TextChannel textChannel)) {
                 return;
