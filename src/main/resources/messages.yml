@@ -1,0 +1,75 @@
+dodo-to-minecraft-format: "<light_purple>{0}</light_purple> {1} <green>:</green> {2}"
+minecraft-to-dodo-format: "{0} >> {1}"
+
+sender-name-hover: |
+  <aqua>{0}</aqua>
+  <white>Lv.{1} <gray>-</gray> {2}
+  {3}
+file-component-hover: |
+  <gold>大小: </gold> {0}
+
+player-join-message: "{0} 加入了游戏"
+
+
+player-quit-message: "{0} 离开了游戏"
+player-death-message: "{1}\n死亡位置: {2}"
+advancement-message:
+  GOAL: "完成了目标"
+  TASK: "取得了进度"
+  CHALLENGE: "完成了挑战"
+player-unlock-advancement-message: "{0} {1} [{2}]:\n{3}"
+#server-up-message: |
+#  {
+#   "content": "",
+#   "card": {
+#     "type": "card",
+#     "components": [
+#       {
+#         "type": "section",
+#         "text": {
+#           "type": "dodo-md",
+#           "content": "服务器已启动"
+#         }
+#       }
+#     ],
+#     "theme": "green"
+#   }
+#  }
+#server-down-message: |
+#  {
+#   "content": "",
+#   "card": {
+#     "type": "card",
+#     "components": [
+#       {
+#         "type": "section",
+#         "text": {
+#           "type": "dodo-md",
+#           "content": "服务器已关闭"
+#         }
+#       }
+#     ],
+#     "theme": "green"
+#   }
+#  }
+
+
+command-type-mismatch: "<red>此命令需要 <aqua>{0}</aqua> 才能执行</red>"
+no-permission: "<red>权限不足</red>"
+this-minecraft-account-already-bind: "<red>错误：此 Minecraft 角色已绑定了一个 DoDo 账号，请先解绑。"
+enter-code-to-bind-dodo: "<green>请在 <yellow>{0}</yellow> 秒内在 DoDo 中将验证码 <aqua>{1}</aqua> 通过 <gold>私信</gold> 方式发送给机器人以完成绑定。"
+this-minecraft-account-had-no-bind: "<red>错误：此 Minecraft 角色未绑定任何 DoDo 账号，无需解绑。"
+bind-failure: "<red>绑定操作失败，原因如下：<gray>{0}</gray>"
+bind-success: "<green>绑定成功，您成功与 <aqua>{0}</aqua> 角色绑定！"
+unbind-failure: "<red>解除绑定失败，原因如下：<gray>{0}</gray>"
+unbind-success: "<green>您已成功解除绑定！"
+internal-error: "<red>由于出现了一个内部错误，操作无法完成，请与服务器管理员联系。"
+command:
+  format: "<green>/{0} {1} <yellow>- {2}"
+  format-disabled: "<red>/{0} {1} <gray>- {2}"
+  description:
+    title: "<light_purple>DoDoSRV</light_purple> - <yellow>命令帮助列表</yellow>"
+    help: "<yellow>查看 DoDoSRV 命令帮助列表"
+    link: "<yellow>将此 Minecraft 角色绑定到一个 DoDo 账号上"
+    unlink: "<yellow>解除此 Minecraft 角色所绑定的 DoDo 账号"
+    code: "<yellow>使用验证码以验证 DoDo 操作"
