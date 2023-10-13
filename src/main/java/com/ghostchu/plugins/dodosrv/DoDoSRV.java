@@ -21,6 +21,7 @@ import net.deechael.dodo.impl.ChannelImpl;
 import net.deechael.dodo.impl.DodoBot;
 import net.deechael.dodo.network.Route;
 import net.deechael.dodo.types.MessageType;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -28,7 +29,6 @@ import java.io.File;
 import java.lang.reflect.Field;
 
 public final class DoDoSRV extends JavaPlugin {
-
     private DodoBot bot;
     private DatabaseManager databaseManager;
     private UserBindManager userBindManager;
@@ -36,10 +36,12 @@ public final class DoDoSRV extends JavaPlugin {
     private SimpleCommandManager commandManager;
     private DoDoListener doDoListener;
     private DodoManager dodoManager;
+    private BukkitAudiences audience;
 
     @Override
     public void onEnable() {
         // Plugin startup logic
+        this.audience = BukkitAudiences.create(this);
         saveDefaultConfig();
         saveDefTranslations();
         this.textManager = new TextManager(this, new File(getDataFolder(), "messages.yml"));
@@ -82,15 +84,16 @@ public final class DoDoSRV extends JavaPlugin {
     @Override
     public void onDisable() {
         // Plugin shutdown logic
+        this.audience.close();
     }
 
     public void sendMessageToDefChannel(Message message) {
         Util.asyncThreadRun(() -> {
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
-            if (!(channel instanceof TextChannel textChannel)) {
+            if (!(channel instanceof TextChannel)) {
                 return;
             }
-            textChannel.send(message);
+            ((TextChannel)channel).send(message);
         });
     }
 
@@ -102,7 +105,7 @@ public final class DoDoSRV extends JavaPlugin {
         Bukkit.getScheduler().runTaskAsynchronously(this,()->{
             String finalJson = JsonUtil.regular().toJson(new JsonParser().parse(json));
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
-            if (!(channel instanceof TextChannel textChannel)) {
+            if (!(channel instanceof TextChannel)) {
                 return;
             }
             Field gatewayField;
@@ -154,4 +157,8 @@ public final class DoDoSRV extends JavaPlugin {
         return commandManager;
     }
     public DodoManager dodoManager() { return dodoManager; }
+
+    public BukkitAudiences audience() {
+        return audience;
+    }
 }

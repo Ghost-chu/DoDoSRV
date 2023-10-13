@@ -6,10 +6,10 @@ import com.ghostchu.plugins.dodosrv.util.Util;
 import net.deechael.dodo.content.Message;
 import net.deechael.dodo.content.TextMessage;
 import net.deechael.dodo.types.MessageType;
+import net.kyori.adventure.platform.bukkit.BukkitAudiences;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
 import net.kyori.adventure.text.minimessage.MiniMessage;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.bukkit.command.CommandSender;
@@ -39,12 +39,12 @@ public class TextManager {
 
     public Text of(CommandSender sender, String key, Object... args) {
         String[] argsString = Arrays.stream(args).map(Object::toString).toArray(String[]::new);
-        return new Text(sender, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
+        return new Text(plugin.audience(), sender, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
     }
 
     public Text of(String key, Object... args) {
         String[] argsString = Arrays.stream(args).map(Object::toString).toArray(String[]::new);
-        return new Text(null, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
+        return new Text(plugin.audience(), null, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
     }
 
     @NotNull
@@ -60,12 +60,12 @@ public class TextManager {
                 continue;
             }
             Class<?> clazz = obj.getClass();
-            if (obj instanceof Component component) {
-                components[i] = component;
+            if (obj instanceof Component) {
+                components[i] = (Component) obj;
                 continue;
             }
-            if (obj instanceof ComponentLike componentLike) {
-                components[i] = componentLike.asComponent();
+            if (obj instanceof ComponentLike) {
+                components[i] = ((ComponentLike) obj).asComponent();
                 continue;
             }
             // Check
@@ -118,16 +118,18 @@ public class TextManager {
     public static class Text {
         private final Component component;
         private final CommandSender sender;
+        private final BukkitAudiences audiences;
 
-        public Text(CommandSender sender, Component component) {
+        public Text(BukkitAudiences audiences, CommandSender sender, Component component) {
+            this.audiences = audiences;
             this.sender = sender;
             this.component = component.compact();
         }
 
         public Message dodoText() {
             String raw = PlainTextComponentSerializer.plainText().serialize(component);
-            Message message = new TextMessage( raw);
-            if(false && JsonUtil.isJson(raw)){
+            Message message = new TextMessage(raw);
+            if (false && JsonUtil.isJson(raw)) {
                 message = Message.parse(MessageType.CARD, raw);
             }
             return message;
@@ -137,7 +139,7 @@ public class TextManager {
             return this.component;
         }
 
-        public String plain(){
+        public String plain() {
             return PlainTextComponentSerializer.plainText().serialize(component);
         }
 
@@ -147,7 +149,7 @@ public class TextManager {
 
         public void send() {
             if (this.sender != null) {
-                this.sender.spigot().sendMessage(BungeeComponentSerializer.get().serialize(component));
+                audiences.sender(this.sender).sendMessage(component);
             }
         }
 

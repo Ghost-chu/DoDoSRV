@@ -5,14 +5,14 @@ import com.ghostchu.plugins.dodosrv.util.Util;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
 import org.apache.commons.lang3.StringUtils;
+import org.bukkit.Achievement;
 import org.bukkit.Location;
-import org.bukkit.advancement.AdvancementDisplay;
 import org.bukkit.event.EventHandler;
 import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.entity.PlayerDeathEvent;
 import org.bukkit.event.player.AsyncPlayerChatEvent;
-import org.bukkit.event.player.PlayerAdvancementDoneEvent;
+import org.bukkit.event.player.PlayerAchievementAwardedEvent;
 import org.bukkit.event.player.PlayerJoinEvent;
 import org.bukkit.event.player.PlayerQuitEvent;
 import org.jetbrains.annotations.NotNull;
@@ -78,29 +78,26 @@ public class BukkitListener implements Listener {
     }
 
     @EventHandler(priority = EventPriority.MONITOR, ignoreCancelled = true)
-    public void onAdvancementEvent(PlayerAdvancementDoneEvent event) {
+    public void onAdvancementEvent(PlayerAchievementAwardedEvent event) {
         if (!allowForward("advancement")) {
             return;
         }
-        AdvancementDisplay display = event.getAdvancement().getDisplay();
+        Achievement display = event.getAchievement();
         if (display == null) return;
-        if (!display.shouldShowToast()) return;
-        if (!display.shouldAnnounceChat()) return;
 
 //        String title = switch (display.getType()) {
 //            case TASK, GOAL -> "(font)" + display.getTitle() + "(font)" + "[success]";
 //            case CHALLENGE -> "(font)" + display.getTitle() + "(font)" + "[purple]";
 //        };
-        String title = "`"+display.getTitle()+"`";
-        String description = ">"+display.getDescription();
+        String title = "`"+Util.prettifyText(display.name())+"`";
 
-        String type = plugin.text().of("advancement-message." + display.getType().name()).plain();
+        String type = plugin.text().of("advancement-message.CHALLENGE").plain();
 
         String msg = plugin.text().of("player-unlock-advancement-message",
                 event.getPlayer().getDisplayName(),
                 type,
                 title,
-                description,
+                "成就已达成！",
                 getAvatarLink(event.getPlayer().getUniqueId())).plain();
         plugin.sendMessageToDefChannel(msg);
     }
