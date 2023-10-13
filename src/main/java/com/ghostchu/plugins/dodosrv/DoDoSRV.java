@@ -45,7 +45,11 @@ public final class DoDoSRV extends JavaPlugin {
         saveDefaultConfig();
         saveDefTranslations();
         this.textManager = new TextManager(this, new File(getDataFolder(), "messages.yml"));
-        this.databaseManager = initDatabase();
+        try{
+            this.databaseManager = initDatabase();
+        }catch (Throwable ignored){
+            ignored.printStackTrace();
+        }
         this.userBindManager = new UserBindManager(this, databaseManager);
         try {
             initDoDoBot();

@@ -69,7 +69,7 @@ public class DatabaseManager {
         Driver.load();
         String driverClassName = Driver.class.getName();
         config.setDriverClassName(driverClassName);
-        config.setJdbcUrl("jdbc:h2:" + new File(plugin.getDataFolder(), "database").getCanonicalFile().getAbsolutePath() + ";MODE=MYSQL");
+        config.setJdbcUrl("jdbc:h2:" + new File(plugin.getDataFolder(), "dumb-db").getCanonicalFile().getAbsolutePath() + ";MODE=MYSQL");
         SQLManager sqlManager = new SQLManagerImpl(new HikariDataSource(config), "DoDoSRV-SQLManager");
         sqlManager.executeSQL("SET MODE=MYSQL"); // Switch to MySQL mode
         return sqlManager;

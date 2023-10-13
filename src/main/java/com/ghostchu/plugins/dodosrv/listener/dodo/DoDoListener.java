@@ -3,7 +3,10 @@ package com.ghostchu.plugins.dodosrv.listener.dodo;
 import com.ghostchu.plugins.dodosrv.DoDoSRV;
 import net.deechael.dodo.api.Member;
 import net.deechael.dodo.api.TextChannel;
-import net.deechael.dodo.content.*;
+import net.deechael.dodo.content.FileMessage;
+import net.deechael.dodo.content.ImageMessage;
+import net.deechael.dodo.content.ShareMessage;
+import net.deechael.dodo.content.VideoMessage;
 import net.deechael.dodo.event.EventHandler;
 import net.deechael.dodo.event.Listener;
 import net.deechael.dodo.event.channel.ChannelMessageEvent;
@@ -11,7 +14,7 @@ import net.deechael.dodo.types.MessageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.event.ClickEvent;
 import net.kyori.adventure.text.event.HoverEvent;
-import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
+import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
@@ -54,7 +57,7 @@ public class DoDoListener implements Listener {
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                 channelNameComponent,
                 senderComponent,
                 content
@@ -78,7 +81,7 @@ public class DoDoListener implements Listener {
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                 channelNameComponent,
                 senderComponent,
                 component
@@ -101,7 +104,7 @@ public class DoDoListener implements Listener {
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                 channelNameComponent,
                 senderComponent,
                 component
@@ -124,7 +127,7 @@ public class DoDoListener implements Listener {
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                 channelNameComponent,
                 senderComponent,
                 component
@@ -147,7 +150,7 @@ public class DoDoListener implements Listener {
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                 channelNameComponent,
                 senderComponent,
                 component
@@ -167,7 +170,7 @@ public class DoDoListener implements Listener {
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                 channelNameComponent,
                 senderComponent,
                 component

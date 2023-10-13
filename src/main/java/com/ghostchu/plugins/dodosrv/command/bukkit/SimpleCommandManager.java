@@ -3,7 +3,6 @@ package com.ghostchu.plugins.dodosrv.command.bukkit;
 import com.ghostchu.plugins.dodosrv.DoDoSRV;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Help;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Link;
-import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Unlink;
 import com.google.common.collect.Sets;
 import lombok.Data;
 import org.bukkit.command.Command;
@@ -40,31 +39,31 @@ public class SimpleCommandManager implements CommandManager, TabCompleter, Comma
                         .executor(new SubCommand_Help(plugin))
                         .build());
         SubCommand_Link link = new SubCommand_Link(plugin);
-        registerCmd(
-                CommandContainer.builder()
-                        .prefix("link")
-                        .permission("dodosrv.link")
-                        .executor(link)
-                        .build());
-        registerCmd(
-                CommandContainer.builder()
-                        .prefix("bind")
-                        .permission("dodosrv.link")
-                        .executor(link)
-                        .build());
-        SubCommand_Unlink unlink = new SubCommand_Unlink(plugin);
-        registerCmd(
-                CommandContainer.builder()
-                        .prefix("unlink")
-                        .permission("dodosrv.unlink")
-                        .executor(unlink)
-                        .build());
-        registerCmd(
-                CommandContainer.builder()
-                        .prefix("unbind")
-                        .permission("dodosrv.unlink")
-                        .executor(unlink)
-                        .build());
+//        registerCmd(
+//                CommandContainer.builder()
+//                        .prefix("link")
+//                        .permission("dodosrv.link")
+//                        .executor(link)
+//                        .build());
+//        registerCmd(
+//                CommandContainer.builder()
+//                        .prefix("bind")
+//                        .permission("dodosrv.link")
+//                        .executor(link)
+//                        .build());
+//        SubCommand_Unlink unlink = new SubCommand_Unlink(plugin);
+//        registerCmd(
+//                CommandContainer.builder()
+//                        .prefix("unlink")
+//                        .permission("dodosrv.unlink")
+//                        .executor(unlink)
+//                        .build());
+//        registerCmd(
+//                CommandContainer.builder()
+//                        .prefix("unbind")
+//                        .permission("dodosrv.unlink")
+//                        .executor(unlink)
+//                        .build());
     }
 
     /**
