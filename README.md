@@ -28,3 +28,11 @@
 
 [Ghost-chu/Dodo.java](https://github.com/Ghost-chu/Dodo.java) 基于 [DeeChael/Dodo.java](https://github.com/DeeChael/Dodo.java) 改进  
 [MineDown](https://github.com/Phoenix616/MineDown/tree/kyori-adventure)
+
+## 如何构建插件
+
+* 安装 OpenJDK 17 和 Apache Maven 并配置环境变量
+* 克隆 [Ghost-chu/Dodo.java](https://github.com/Ghost-chu/Dodo.java)，并执行 `./gradlew publishToMavenLocal` 部署到本地 Maven 存储库。
+* 克隆这个项目，并执行 `mvn package`，构建后 JAR 在 `target/DodoSRV-xxxxxxx-final.jar`
+
+后期成熟后将不再需要您自行构建，我们会提供 CI 构建并发布到 SpigotMC/Modrinth。
