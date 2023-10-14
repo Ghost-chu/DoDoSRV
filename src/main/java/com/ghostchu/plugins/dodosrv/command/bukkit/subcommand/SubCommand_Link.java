@@ -5,6 +5,7 @@ import com.ghostchu.plugins.dodosrv.command.bukkit.CommandHandler;
 import com.ghostchu.plugins.dodosrv.util.RandomCode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
+import net.deechael.dodo.api.Member;
 import net.deechael.dodo.event.EventHandler;
 import net.deechael.dodo.event.personal.PersonalMessageEvent;
 import net.deechael.dodo.types.MessageType;
@@ -25,7 +26,7 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
 
     public SubCommand_Link(DoDoSRV plugin) {
         this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this,plugin);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         plugin.bot().addEventListener(this);
     }
 
@@ -50,16 +51,24 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
         String code = event.getBody().get().getAsJsonObject().get("content").getAsString();
         UUID player = CODE_POOL.getIfPresent(code.trim().toLowerCase());
         if (player != null) {
-            plugin.userBind().bind(player, event.getMember().getId())
+            Member member = null;
+            try {
+                member = plugin.bot().getClient().fetchMember(event.getIslandId(), event.getDodoId());
+            } catch (Throwable throwable) {
+                throwable.printStackTrace();
+                return;
+            }
+            final Member fixedMember = member;
+            plugin.userBind().bind(player, member.getId())
                     .thenAccept(errorMessage -> {
                         if (errorMessage != null) {
-                            event.getMember().send(plugin.text().of("bind-failure", errorMessage).dodoText());
+                            fixedMember.send(plugin.text().of("bind-failure", errorMessage).dodoText());
                             return;
                         }
-                        event.getMember().send(plugin.text().of("bind-success", player).dodoText());
+                        fixedMember.send(plugin.text().of("bind-success", player).dodoText());
                     })
                     .exceptionally(err -> {
-                        event.getMember().send(plugin.text().of("internal-error").dodoText());
+                        fixedMember.send(plugin.text().of("internal-error").dodoText());
                         return null;
                     });
         }
