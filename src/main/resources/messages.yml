@@ -8,16 +8,72 @@ sender-name-hover: |
 file-component-hover: |
   <gold>大小: </gold> {0}
 
-player-join-message: "{0} 加入了游戏"
+player-join-message: |
+  {
+  "card": {
+    "type": "card",
+    "components": [
+      {
+        "type": "section",
+        "text": { "type": "dodo-md", "content": "**{0}** 加入了游戏" }
+      }
+    ],
+    "theme": "green"
+  }
+  }
 
 
-player-quit-message: "{0} 离开了游戏"
-player-death-message: "{1}\n死亡位置: {2}"
+player-quit-message: |
+  {
+    "card": {
+      "type": "card",
+      "components": [
+        {
+          "type": "section",
+          "text": { "type": "dodo-md", "content": "**{0}** 离开了游戏" }
+        }
+      ],
+      "theme": "grey"
+    }
+  }
+player-death-message: |
+  {
+    "card": {
+      "type": "card",
+      "components": [
+        {
+          "type": "section",
+          "text": {
+            "type": "dodo-md",
+            "content": "{1}\n**死亡位置：**{2}\n**掉落的物品数量：**{3}\n**掉落的经验值：**{4}"
+          }
+        }
+      ],
+      "theme": "black",
+      "title": "💀{0} 死了"
+    }
+  }
 advancement-message:
   GOAL: "完成了目标"
   TASK: "取得了进度"
   CHALLENGE: "完成了挑战"
-player-unlock-advancement-message: "{0} {1} [{2}]:\n{3}"
+player-unlock-advancement-message: |
+  {
+    "card": {
+      "type": "card",
+      "components": [
+        {
+          "type": "section",
+          "text": {
+            "type": "dodo-md",
+            "content": "{3}"
+          }
+        }
+      ],
+      "theme": "yellow",
+      "title": "🎉{0} {1} [{2}]"
+    }
+  }
 #server-up-message: |
 #  {
 #   "content": "",

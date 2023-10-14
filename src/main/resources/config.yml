@@ -59,5 +59,5 @@ feature:
   dodo-to-minecraft:
     enable: true
     translate-mentions: true
-    ignore-users: []
+    ignore-users: [ ]
     require-prefix: ""

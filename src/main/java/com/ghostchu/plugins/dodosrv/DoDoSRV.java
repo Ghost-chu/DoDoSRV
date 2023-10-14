@@ -10,7 +10,7 @@ import com.ghostchu.plugins.dodosrv.listener.dodo.DoDoListener;
 import com.ghostchu.plugins.dodosrv.text.TextManager;
 import com.ghostchu.plugins.dodosrv.util.JsonUtil;
 import com.ghostchu.plugins.dodosrv.util.Util;
-import com.google.gson.JsonParser;
+import com.google.gson.JsonObject;
 import net.deechael.dodo.API;
 import net.deechael.dodo.api.Channel;
 import net.deechael.dodo.api.TextChannel;
@@ -95,12 +95,16 @@ public final class DoDoSRV extends JavaPlugin {
     }
 
     public void sendMessageToDefChannel(String string) {
-        sendMessageToDefChannel(new TextMessage(string));
+        if (!JsonUtil.isJson(string)) {
+            sendMessageToDefChannel(new TextMessage(string));
+        } else {
+            sendCardMessageToDefChannel(string);
+        }
     }
 
     public void sendCardMessageToDefChannel(String json) {
-        Bukkit.getScheduler().runTaskAsynchronously(this,()->{
-            String finalJson = JsonUtil.regular().toJson(new JsonParser().parse(json));
+        Bukkit.getScheduler().runTaskAsynchronously(this, () -> {
+            JsonObject finalJson = JsonUtil.readObject(json);
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
             if (!(channel instanceof TextChannel textChannel)) {
                 return;
@@ -153,5 +157,8 @@ public final class DoDoSRV extends JavaPlugin {
     public CommandManager commandManager() {
         return commandManager;
     }
-    public DodoManager dodoManager() { return dodoManager; }
+
+    public DodoManager dodoManager() {
+        return dodoManager;
+    }
 }
