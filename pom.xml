@@ -275,7 +275,7 @@
         <dependency>
             <groupId>net.deechael</groupId>
             <artifactId>dodo</artifactId>
-            <version>1.00.5</version>
+            <version>1.00.6</version>
         </dependency>
     </dependencies>
 </project>

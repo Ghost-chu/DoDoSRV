@@ -1,6 +1,7 @@
 package com.ghostchu.plugins.dodosrv.command.bukkit;
 
 import com.ghostchu.plugins.dodosrv.DoDoSRV;
+import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_EditIntegral;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Help;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Link;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Unlink;
@@ -46,12 +47,6 @@ public class SimpleCommandManager implements CommandManager, TabCompleter, Comma
                         .permission("dodosrv.link")
                         .executor(link)
                         .build());
-        registerCmd(
-                CommandContainer.builder()
-                        .prefix("bind")
-                        .permission("dodosrv.link")
-                        .executor(link)
-                        .build());
         SubCommand_Unlink unlink = new SubCommand_Unlink(plugin);
         registerCmd(
                 CommandContainer.builder()
@@ -61,9 +56,9 @@ public class SimpleCommandManager implements CommandManager, TabCompleter, Comma
                         .build());
         registerCmd(
                 CommandContainer.builder()
-                        .prefix("unbind")
-                        .permission("dodosrv.unlink")
-                        .executor(unlink)
+                        .prefix("editintegral")
+                        .permission("dodosrv.editintegral")
+                        .executor(new SubCommand_EditIntegral(plugin))
                         .build());
     }
 
