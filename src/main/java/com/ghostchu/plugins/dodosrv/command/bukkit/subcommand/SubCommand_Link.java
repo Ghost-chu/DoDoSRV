@@ -5,7 +5,6 @@ import com.ghostchu.plugins.dodosrv.command.bukkit.CommandHandler;
 import com.ghostchu.plugins.dodosrv.util.RandomCode;
 import com.google.common.cache.Cache;
 import com.google.common.cache.CacheBuilder;
-import net.deechael.dodo.api.Member;
 import net.deechael.dodo.event.EventHandler;
 import net.deechael.dodo.event.personal.PersonalMessageEvent;
 import net.deechael.dodo.types.MessageType;
@@ -53,24 +52,16 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
         UUID player = CODE_POOL.getIfPresent(code.trim().toLowerCase());
         if (player != null) {
             OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
-            Member member;
-            try {
-                member = plugin.bot().getClient().fetchMember(event.getIslandId(), event.getDodoId());
-            } catch (Throwable throwable) {
-                throwable.printStackTrace();
-                return;
-            }
-            final Member fixedMember = member;
-            plugin.userBind().bind(player, member.getId())
+            plugin.userBind().bind(player, event.getMember().getId())
                     .thenAccept(errorMessage -> {
                         if (errorMessage != null) {
-                            fixedMember.send(plugin.text().of("bind-failure", errorMessage).dodoText());
+                            event.getMember().send(plugin.text().of("bind-failure", errorMessage).dodoText());
                             return;
                         }
-                        fixedMember.send(plugin.text().of("bind-success", player, offlinePlayer.getName()).dodoText());
+                        event.getMember().send(plugin.text().of("bind-success", player, offlinePlayer.getName()).dodoText());
                     })
                     .exceptionally(err -> {
-                        fixedMember.send(plugin.text().of("internal-error").dodoText());
+                        event.getMember().send(plugin.text().of("internal-error").dodoText());
                         return null;
                     });
         }

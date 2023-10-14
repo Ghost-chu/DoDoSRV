@@ -2,7 +2,6 @@ package com.ghostchu.plugins.dodosrv.command.bukkit.subcommand;
 
 import com.ghostchu.plugins.dodosrv.DoDoSRV;
 import com.ghostchu.plugins.dodosrv.command.bukkit.CommandHandler;
-import net.deechael.dodo.api.Member;
 import net.deechael.dodo.event.EventHandler;
 import net.deechael.dodo.event.personal.PersonalMessageEvent;
 import net.deechael.dodo.types.MessageType;
@@ -53,24 +52,16 @@ public class SubCommand_Unlink implements CommandHandler<Player>, Listener, net.
         if (event.getMessageType() != MessageType.TEXT) return;
         String command = event.getBody().get().getAsJsonObject().get("content").getAsString();
         if (!command.equalsIgnoreCase("unlink")) return;
-        Member member;
-        try {
-            member = plugin.bot().getClient().fetchMember(event.getIslandId(), event.getDodoId());
-        } catch (Throwable throwable) {
-            throwable.printStackTrace();
-            return;
-        }
-        final Member fixedMember = member;
-        plugin.userBind().unbind(member.getId())
+        plugin.userBind().unbind(event.getMember().getId())
                 .thenAccept(errorMessage -> {
                     if (errorMessage != null) {
-                        fixedMember.send(plugin.text().of("unbind-failure", errorMessage).dodoText());
+                        event.getMember().send(plugin.text().of("unbind-failure", errorMessage).dodoText());
                         return;
                     }
-                    fixedMember.send(plugin.text().of("unbind-success").dodoText());
+                    event.getMember().send(plugin.text().of("unbind-success").dodoText());
                 })
                 .exceptionally(err -> {
-                    fixedMember.send(plugin.text().of("internal-error").dodoText());
+                    event.getMember().send(plugin.text().of("internal-error").dodoText());
                     return null;
                 });
 
