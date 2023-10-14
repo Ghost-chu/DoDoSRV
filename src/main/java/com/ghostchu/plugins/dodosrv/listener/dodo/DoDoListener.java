@@ -71,7 +71,7 @@ public class DoDoListener implements Listener {
         } else {
             try {
                 Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
-                        plugin.echoCache().get(event.getReference().getMessageId(), () -> "未找到消息（已过期）"),
+                        plugin.echoCache().get(event.getReference().getMessageId(), () -> "未找到消息"),
                         channelNameComponent,
                         senderComponent,
                         msgComponent

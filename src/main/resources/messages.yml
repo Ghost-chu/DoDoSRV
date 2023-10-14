@@ -5,6 +5,7 @@ minecraft-to-dodo-format: "{0} >> {1}"
 sender-name-hover: |
   <aqua>{0}</aqua>
   <white>Lv.{1} <gray>-</gray> {2}
+  <white>积分：{4}
   {3}
 file-component-hover: |
   <gold>大小: </gold> {0}
