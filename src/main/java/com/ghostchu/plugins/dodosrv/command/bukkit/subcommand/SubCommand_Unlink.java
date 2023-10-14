@@ -2,6 +2,10 @@ package com.ghostchu.plugins.dodosrv.command.bukkit.subcommand;
 
 import com.ghostchu.plugins.dodosrv.DoDoSRV;
 import com.ghostchu.plugins.dodosrv.command.bukkit.CommandHandler;
+import net.deechael.dodo.api.Member;
+import net.deechael.dodo.event.EventHandler;
+import net.deechael.dodo.event.personal.PersonalMessageEvent;
+import net.deechael.dodo.types.MessageType;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
@@ -15,7 +19,7 @@ public class SubCommand_Unlink implements CommandHandler<Player>, Listener, net.
 
     public SubCommand_Unlink(DoDoSRV plugin) {
         this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this,plugin);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         plugin.bot().addEventListener(this);
     }
 
@@ -42,5 +46,33 @@ public class SubCommand_Unlink implements CommandHandler<Player>, Listener, net.
                         return null;
                     });
         });
+    }
+
+    @EventHandler
+    public void dodoDirectMessageEvent(PersonalMessageEvent event) {
+        if (event.getMessageType() != MessageType.TEXT) return;
+        String command = event.getBody().get().getAsJsonObject().get("content").getAsString();
+        if (!command.equalsIgnoreCase("unlink")) return;
+        Member member;
+        try {
+            member = plugin.bot().getClient().fetchMember(event.getIslandId(), event.getDodoId());
+        } catch (Throwable throwable) {
+            throwable.printStackTrace();
+            return;
+        }
+        final Member fixedMember = member;
+        plugin.userBind().unbind(member.getId())
+                .thenAccept(errorMessage -> {
+                    if (errorMessage != null) {
+                        fixedMember.send(plugin.text().of("unbind-failure", errorMessage).dodoText());
+                        return;
+                    }
+                    fixedMember.send(plugin.text().of("unbind-success").dodoText());
+                })
+                .exceptionally(err -> {
+                    fixedMember.send(plugin.text().of("internal-error").dodoText());
+                    return null;
+                });
+
     }
 }
