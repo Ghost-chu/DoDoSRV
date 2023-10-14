@@ -76,7 +76,7 @@ public class BukkitListener implements Listener {
                 event.getDrops().size(),
                 event.getDroppedExp(),
                 getAvatarLink(event.getEntity().getUniqueId())
-                ).plain();
+        ).plain();
         plugin.sendMessageToDefChannel(msg);
     }
 

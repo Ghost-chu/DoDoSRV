@@ -1,4 +1,5 @@
 dodo-to-minecraft-format: "<light_purple>{0}</light_purple> {1} <green>:</green> {2}"
+dodo-to-minecraft-reply-format: "<gray>{0}</gray>\n└回复：<light_purple>{1}</light_purple> {2} <green>:</green> {3}"
 minecraft-to-dodo-format: "{0} >> {1}"
 
 sender-name-hover: |

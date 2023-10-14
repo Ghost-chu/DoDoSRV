@@ -3,21 +3,28 @@ package com.ghostchu.plugins.dodosrv.text;
 import com.ghostchu.plugins.dodosrv.DoDoSRV;
 import com.ghostchu.plugins.dodosrv.util.JsonUtil;
 import com.ghostchu.plugins.dodosrv.util.Util;
+import de.themoep.minedown.adventure.MineDown;
+import net.deechael.dodo.api.Member;
 import net.deechael.dodo.content.Message;
 import net.deechael.dodo.content.TextMessage;
 import net.deechael.dodo.types.MessageType;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.ComponentLike;
+import net.kyori.adventure.text.TextReplacementConfig;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.kyori.adventure.text.serializer.bungeecord.BungeeComponentSerializer;
 import net.kyori.adventure.text.serializer.legacy.LegacyComponentSerializer;
 import net.kyori.adventure.text.serializer.plain.PlainTextComponentSerializer;
+import org.apache.commons.lang3.StringUtils;
 import org.bukkit.command.CommandSender;
 import org.bukkit.configuration.file.YamlConfiguration;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
+import java.util.LinkedHashMap;
+import java.util.Map;
+import java.util.concurrent.CompletableFuture;
 
 public class TextManager {
     private final File file;
@@ -34,7 +41,39 @@ public class TextManager {
     private void init() {
         this.config = YamlConfiguration.loadConfiguration(file);
         this.miniMessage = MiniMessage.miniMessage();
+
     }
+
+    public CompletableFuture<Component> dodoToComponent(String content) {
+        return CompletableFuture.supplyAsync(() -> {
+            String replaced = content;
+            Map<String, Component> replacements = new LinkedHashMap<>();
+            String[] found = StringUtils.substringsBetween(content, "<@!", ">");
+            if (found != null) {
+                for (int i = 0; i < found.length; i++) {
+                    try {
+                        String cursor = found[i];
+                        String replaceTo = "{" + i + "}";
+                        String origin = "<@!" + cursor + ">";
+                        replaced = replaced.replace(origin, replaceTo);
+                        Member member = plugin.bot().getClient().fetchMember(plugin.getIslandId(), cursor);
+                        replacements.put(replaceTo, plugin.dodoManager().getMemberDisplayComponent(plugin.getIslandId(), member));
+                    } catch (Throwable ignored) {
+                    }
+                }
+            }
+            Component component = new MineDown(replaced).toComponent();
+            for (Map.Entry<String, Component> e : replacements.entrySet()) {
+                component = component.replaceText(TextReplacementConfig.builder()
+                        .matchLiteral(e.getKey())
+                        .replacement(e.getValue())
+                        .build());
+            }
+            return component;
+        });
+
+    }
+
 
     public Text of(CommandSender sender, String key, Object... args) {
         return new Text(sender, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
