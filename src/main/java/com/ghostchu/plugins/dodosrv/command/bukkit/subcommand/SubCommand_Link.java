@@ -10,6 +10,7 @@ import net.deechael.dodo.event.EventHandler;
 import net.deechael.dodo.event.personal.PersonalMessageEvent;
 import net.deechael.dodo.types.MessageType;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -51,7 +52,8 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
         String code = event.getBody().get().getAsJsonObject().get("content").getAsString();
         UUID player = CODE_POOL.getIfPresent(code.trim().toLowerCase());
         if (player != null) {
-            Member member = null;
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
+            Member member;
             try {
                 member = plugin.bot().getClient().fetchMember(event.getIslandId(), event.getDodoId());
             } catch (Throwable throwable) {
@@ -65,7 +67,7 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
                             fixedMember.send(plugin.text().of("bind-failure", errorMessage).dodoText());
                             return;
                         }
-                        fixedMember.send(plugin.text().of("bind-success", player).dodoText());
+                        fixedMember.send(plugin.text().of("bind-success", player, offlinePlayer.getName()).dodoText());
                     })
                     .exceptionally(err -> {
                         fixedMember.send(plugin.text().of("internal-error").dodoText());

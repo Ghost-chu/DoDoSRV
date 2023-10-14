@@ -7,11 +7,11 @@ import net.deechael.dodo.api.Member;
 import net.deechael.dodo.types.IntegralOperateType;
 import org.bukkit.Bukkit;
 import org.bukkit.OfflinePlayer;
-import org.bukkit.command.ConsoleCommandSender;
+import org.bukkit.command.CommandSender;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
 
-public class SubCommand_EditIntegral implements CommandHandler<ConsoleCommandSender>, Listener, net.deechael.dodo.event.Listener {
+public class SubCommand_EditIntegral implements CommandHandler<CommandSender>, Listener, net.deechael.dodo.event.Listener {
     private final DoDoSRV plugin;
 
     public SubCommand_EditIntegral(DoDoSRV plugin) {
@@ -21,11 +21,11 @@ public class SubCommand_EditIntegral implements CommandHandler<ConsoleCommandSen
     }
 
     @Override
-    public void onCommand(ConsoleCommandSender sender, @NotNull String commandLabel, @NotNull String[] cmdArg) {
+    public void onCommand(CommandSender sender, @NotNull String commandLabel, @NotNull String[] cmdArg) {
         Util.asyncThreadRun(() -> {
             @SuppressWarnings("deprecation") OfflinePlayer player = Bukkit.getOfflinePlayer(cmdArg[0]);
             int opType = Integer.parseInt(cmdArg[1]);
-            long amount = cmdArg.length;
+            long amount = Long.parseLong(cmdArg[2]);
             String dodoId = plugin.database().getDatabaseHelper().getBindFromPlayer(player.getUniqueId()).join();
             if (dodoId == null) {
                 plugin.text().of(player.getPlayer(), "dodo-not-bind").send();

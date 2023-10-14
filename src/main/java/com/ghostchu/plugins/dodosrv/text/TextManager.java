@@ -18,7 +18,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.io.File;
-import java.util.Arrays;
 
 public class TextManager {
     private final File file;
@@ -38,12 +37,10 @@ public class TextManager {
     }
 
     public Text of(CommandSender sender, String key, Object... args) {
-        String[] argsString = Arrays.stream(args).map(Object::toString).toArray(String[]::new);
         return new Text(sender, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
     }
 
     public Text of(String key, Object... args) {
-        String[] argsString = Arrays.stream(args).map(Object::toString).toArray(String[]::new);
         return new Text(null, Util.fillArgs(miniMessage.deserialize(config.getString(key, "Missing no: " + key)), convert(args)));
     }
 
@@ -126,10 +123,14 @@ public class TextManager {
 
         public Message dodoText() {
             String raw = PlainTextComponentSerializer.plainText().serialize(component);
-            Message message = new TextMessage( raw);
-            if(false && JsonUtil.isJson(raw)){
+            if (raw == null || raw.isBlank()) {
+                raw = "Missing no: text is null";
+            }
+            Message message = new TextMessage(raw);
+            if (false && JsonUtil.isJson(raw)) {
                 message = Message.parse(MessageType.CARD, raw);
             }
+
             return message;
         }
 
@@ -137,7 +138,7 @@ public class TextManager {
             return this.component;
         }
 
-        public String plain(){
+        public String plain() {
             return PlainTextComponentSerializer.plainText().serialize(component);
         }
 
