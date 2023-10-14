@@ -71,6 +71,9 @@ public class DoDoListener implements Listener {
         if (event.getMessageType() != MessageType.FILE) {
             return;
         }
+        if(!event.getChannelId().equals(plugin.getChatChannel())) {
+            return;
+        }
         FileMessage message = (FileMessage) event.getBody();
         String fileSize = FileUtils.byteCountToDisplaySize(message.getSize());
         Component component = Component.text("[文件："+message.getName()+": "+ fileSize+"]");
@@ -93,6 +96,9 @@ public class DoDoListener implements Listener {
             return;
         }
         if (event.getMessageType() != MessageType.IMAGE) {
+            return;
+        }
+        if(!event.getChannelId().equals(plugin.getChatChannel())) {
             return;
         }
         ImageMessage message = (ImageMessage) event.getBody();
@@ -118,6 +124,9 @@ public class DoDoListener implements Listener {
         if (event.getMessageType() != MessageType.SHARE) {
             return;
         }
+        if(!event.getChannelId().equals(plugin.getChatChannel())) {
+            return;
+        }
         ShareMessage message = (ShareMessage) event.getBody();
         Component component = Component.text("[分享]");
         component = component.clickEvent(ClickEvent.openUrl(message.getJumpUrl()));
@@ -141,6 +150,9 @@ public class DoDoListener implements Listener {
         if (event.getMessageType() != MessageType.VIDEO) {
             return;
         }
+        if(!event.getChannelId().equals(plugin.getChatChannel())) {
+            return;
+        }
         VideoMessage message = (VideoMessage) event.getBody();
         Component component = Component.text("[视频]");
         component = component.clickEvent(ClickEvent.openUrl(message.getUrl()));
@@ -162,6 +174,9 @@ public class DoDoListener implements Listener {
             return;
         }
         if (event.getMessageType() != MessageType.CARD) {
+            return;
+        }
+        if(!event.getChannelId().equals(plugin.getChatChannel())) {
             return;
         }
         Component component = Component.text("[卡片消息]");
