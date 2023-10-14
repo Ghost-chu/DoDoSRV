@@ -72,7 +72,7 @@ public final class DoDoSRV extends JavaPlugin {
     }
 
     private void initDoDoBot() {
-        this.bot = new DodoBot(getConfig().getInt("client-id"), getConfig().getString("bot-token"));
+        this.bot = new DodoBot(getConfig().getInt("client-id", Integer.parseInt(System.getProperty("dodosrv.client-id"))), getConfig().getString("bot-token", System.getProperty("dodosrv.bot-token")));
         initListeners();
         this.bot.runAfter(this::postInit);
         this.bot.start();
