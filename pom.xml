@@ -45,11 +45,6 @@
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
-                                    <pattern>net.kyori.</pattern>
-                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.net.kyori.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
                                     <pattern>org.bstats.</pattern>
                                     <shadedPattern>com.ghostchu.plugins.dodosrv.shade.org.bstats.
                                     </shadedPattern>
