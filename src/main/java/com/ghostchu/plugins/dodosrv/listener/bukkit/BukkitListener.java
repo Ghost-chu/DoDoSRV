@@ -92,7 +92,7 @@ public class BukkitListener implements Listener {
 //            case TASK, GOAL -> "(font)" + display.getTitle() + "(font)" + "[success]";
 //            case CHALLENGE -> "(font)" + display.getTitle() + "(font)" + "[purple]";
 //        };
-        String title = "`"+Util.prettifyText(display.name())+"`";
+        String title = Util.prettifyText(display.name());
 
         String type = plugin.text().of("advancement-message.CHALLENGE").plain();
 

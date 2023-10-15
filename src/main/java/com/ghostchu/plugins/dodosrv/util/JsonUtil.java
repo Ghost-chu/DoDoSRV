@@ -1,6 +1,7 @@
 package com.ghostchu.plugins.dodosrv.util;
 
 import com.google.gson.*;
+import org.apache.commons.lang3.StringUtils;
 import org.jetbrains.annotations.NotNull;
 
 import java.io.Reader;
@@ -76,7 +77,7 @@ public final class JsonUtil {
         return STANDARD_GSON;
     }
     public static boolean isJson(String str) {
-        if (str == null || str.isBlank()) {
+        if (StringUtils.isBlank(str)) {
             return false;
         }
         try {

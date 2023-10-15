@@ -4,6 +4,7 @@ import com.ghostchu.plugins.dodosrv.DoDoSRV;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_EditIntegral;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Help;
 import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Link;
+import com.ghostchu.plugins.dodosrv.command.bukkit.subcommand.SubCommand_Unlink;
 import com.google.common.collect.Sets;
 import lombok.Data;
 import org.bukkit.command.Command;

@@ -23,6 +23,7 @@ import net.deechael.dodo.impl.DodoBot;
 import net.deechael.dodo.network.Route;
 import net.deechael.dodo.types.MessageType;
 import net.kyori.adventure.platform.bukkit.BukkitAudiences;
+import net.kyori.adventure.text.Component;
 import org.bukkit.Bukkit;
 import org.bukkit.plugin.java.JavaPlugin;
 
@@ -138,8 +139,8 @@ public final class DoDoSRV extends JavaPlugin {
             try {
                 gatewayField = ChannelImpl.class.getDeclaredField("gateway");
                 gatewayField.setAccessible(true);
-                Gateway gateway = (Gateway) gatewayField.get(channel);
-                Route route = API.V2.Channel.messageSend().param("channelId", channel.getId()).param("messageType", MessageType.CARD.getCode()).param("messageBody", finalJson);
+                Gateway gateway = (Gateway) gatewayField.get(textChannel);
+                Route route = API.V2.Channel.messageSend().param("channelId", textChannel.getId()).param("messageType", MessageType.CARD.getCode()).param("messageBody", finalJson);
                 return gateway.executeRequest(route).getAsJsonObject().get("messageId").getAsString();
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
@@ -162,6 +163,10 @@ public final class DoDoSRV extends JavaPlugin {
         if (!file.exists()) {
             saveResource("messages.yml", false);
         }
+    }
+
+    public void legacyBroadcastMessage(Component component){
+        audience.all().sendMessage(component);
     }
 
     public DodoBot bot() {

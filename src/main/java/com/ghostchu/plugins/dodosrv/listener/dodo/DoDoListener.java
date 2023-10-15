@@ -63,31 +63,28 @@ public class DoDoListener implements Listener {
         Component msgComponent = plugin.text().dodoToComponent(content).join();
 
         if (event.getReference() == null) {
-            Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+            Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
                     channelNameComponent,
                     senderComponent,
                     msgComponent
             ).component()));
         } else {
             try {
-                Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
+                Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
                         plugin.echoCache().get(event.getReference().getMessageId(), () -> "未找到消息"),
                         channelNameComponent,
                         senderComponent,
                         msgComponent
                 ).component()));
             } catch (ExecutionException e) {
-                Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
+                Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
                         "未找到消息（已过期）",
                         channelNameComponent,
                         senderComponent,
                         msgComponent
                 ).component()));
             }
-
         }
-
-
     }
 
     @EventHandler

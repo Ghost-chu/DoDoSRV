@@ -41,37 +41,67 @@
                             <relocations>
                                 <relocation>
                                     <pattern>de.themoep.minedown.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.de.themoep.minedown.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.de.themoep.minedown.
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>net.kyori.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.kyori.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.net.kyori.
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.bstats.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.bstats.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.org.bstats.
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>org.apache.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.apache.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.org.apache.
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.google.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.google.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.com.google.
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>com.h2database.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.h2database.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.com.h2database.
                                     </shadedPattern>
                                 </relocation>
                                 <relocation>
                                     <pattern>net.deechael.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.deechael.
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.net.deechael.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.h2.</pattern>
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.org.h2.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.slf4j.</pattern>
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.org.slf4j.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>google.protobuf.</pattern>
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.google.protobuf.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.mysql.</pattern>
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.com.mysql.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>ch.qos.</pattern>
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.ch.qos.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>cc.carm.</pattern>
+                                    <shadedPattern>com.ghostchu.plugins.dodosrv.shade.cc.carm.
                                     </shadedPattern>
                                 </relocation>
                             </relocations>
@@ -299,10 +329,10 @@
         </dependency>
         <dependency>
             <groupId>org.spigotmc</groupId>
-            <artifactId>spigot</artifactId>
+            <artifactId>spigot-cru</artifactId>
             <version>1.7.10</version>
             <scope>system</scope>
-            <systemPath>${basedir}/lib/spigot-1.7.10-SNAPSHOT-b1657.jar</systemPath>
+            <systemPath>${basedir}/lib/Crucible-1.7.10-staging-81fcb90b-server.jar</systemPath>
         </dependency>
         <dependency>
             <groupId>net.deechael</groupId>
@@ -314,12 +344,6 @@
             <artifactId>minedown-adventure</artifactId>
             <version>1.7.1-SNAPSHOT</version>
             <scope>compile</scope>
-        </dependency>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.20.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>
