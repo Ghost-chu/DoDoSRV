@@ -58,13 +58,17 @@ public class DodoManager extends AbstractCacheable {
     }
 
     public Component getMemberOnlineStatusComponent(Member member) {
-        return switch (member.getOnlineStatus()) {
-            case ONLINE -> Component.text("在线").color(NamedTextColor.GREEN);
-            case WORKING -> Component.text("请勿打扰").color(NamedTextColor.RED);
-            case LEAVE -> Component.text("离开").color(NamedTextColor.GRAY);
-            case OFFLINE -> Component.text("离线").color(NamedTextColor.DARK_GRAY);
-            //noinspection UnnecessaryDefault
-            default -> Component.text("未知").color(NamedTextColor.WHITE);
-        };
+        switch (member.getOnlineStatus()) {
+            case ONLINE:
+                return Component.text("在线").color(NamedTextColor.GREEN);
+            case WORKING:
+                return Component.text("请勿打扰").color(NamedTextColor.RED);
+            case LEAVE:
+                return Component.text("离开").color(NamedTextColor.GRAY);
+            case OFFLINE:
+                return Component.text("离线").color(NamedTextColor.DARK_GRAY);
+            default:
+                return Component.text("未知").color(NamedTextColor.WHITE);
+        }
     }
 }

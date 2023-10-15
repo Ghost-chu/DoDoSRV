@@ -12,7 +12,7 @@
     <name>DoDoSRV</name>
 
     <properties>
-        <java.version>17</java.version>
+        <java.version>1.8</java.version>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
     </properties>
 
@@ -30,7 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
+                <version>3.5.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -38,6 +38,43 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
+                            <relocations>
+                                <relocation>
+                                    <pattern>de.themoep.minedown.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.de.themoep.minedown.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.kyori.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.bstats.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.apache.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.google.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.h2database.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.h2database.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.deechael.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.deechael.
+                                    </shadedPattern>
+                                </relocation>
+                            </relocations>
                             <finalName>${artifactId}-${version}-final</finalName>
                             <createDependencyReducedPom>true</createDependencyReducedPom>
                             <minimizeJar>false</minimizeJar>
@@ -82,13 +119,6 @@
     </repositories>
 
     <dependencies>
-        <dependency>
-            <groupId>org.spigotmc</groupId>
-            <artifactId>spigot-api</artifactId>
-            <version>1.20.2-R0.1-SNAPSHOT</version>
-            <scope>provided</scope>
-        </dependency>
-
         <dependency>
             <groupId>org.bstats</groupId>
             <artifactId>bstats-bukkit</artifactId>
@@ -279,13 +309,19 @@
         <dependency>
             <groupId>net.deechael</groupId>
             <artifactId>dodo</artifactId>
-            <version>1.00.6</version>
+            <version>1.00.7</version>
         </dependency>
         <dependency>
             <groupId>de.themoep</groupId>
             <artifactId>minedown-adventure</artifactId>
             <version>1.7.1-SNAPSHOT</version>
             <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.20.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

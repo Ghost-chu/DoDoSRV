@@ -96,11 +96,13 @@ public class TextManager {
                 continue;
             }
             Class<?> clazz = obj.getClass();
-            if (obj instanceof Component component) {
+            if (obj instanceof Component) {
+                Component component = (Component) obj;
                 components[i] = component;
                 continue;
             }
-            if (obj instanceof ComponentLike componentLike) {
+            if (obj instanceof ComponentLike) {
+                ComponentLike componentLike = (ComponentLike) obj;
                 components[i] = componentLike.asComponent();
                 continue;
             }
@@ -162,7 +164,7 @@ public class TextManager {
 
         public Message dodoText() {
             String raw = PlainTextComponentSerializer.plainText().serialize(component);
-            if (raw == null || raw.isBlank()) {
+            if (StringUtils.isBlank(raw)) {
                 raw = "Missing no: text is null";
             }
             Message message = new TextMessage(raw);

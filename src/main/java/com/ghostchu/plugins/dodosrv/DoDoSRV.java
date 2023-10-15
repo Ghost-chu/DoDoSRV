@@ -27,7 +27,6 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.lang.reflect.Field;
-import java.util.Objects;
 import java.util.concurrent.CompletableFuture;
 import java.util.concurrent.TimeUnit;
 
@@ -81,10 +80,10 @@ public final class DoDoSRV extends JavaPlugin {
     }
 
     private void initDoDoBot() {
-        this.bot = new DodoBot(getConfig().getInt("client-id",
-                Integer.parseInt(Objects.requireNonNullElse(System.getProperty("dodosrv.client-id"), "0"))),
-                getConfig().getString("bot-token",
-                        System.getProperty("dodosrv.bot-token")));
+        String backupClientId = System.getProperty("dodosrv.client-id");
+        if(backupClientId == null) backupClientId = "0";
+        int clientId = getConfig().getInt("client-id", Integer.parseInt(backupClientId) );
+        this.bot = new DodoBot(clientId, getConfig().getString("bot-token", System.getProperty("dodosrv.bot-token")));
         initListeners();
         this.bot.runAfter(this::postInit);
         this.bot.start();
@@ -99,11 +98,13 @@ public final class DoDoSRV extends JavaPlugin {
     public CompletableFuture<String> sendMessageToDefChannel(Message message) {
         return CompletableFuture.supplyAsync(() -> {
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
-            if (!(channel instanceof TextChannel textChannel)) {
+            if (!(channel instanceof TextChannel)) {
                 return null;
             }
+            TextChannel textChannel = (TextChannel) channel;
             String msgId = textChannel.send(message);
-            if(message instanceof TextMessage msg){
+            if(message instanceof TextMessage){
+                TextMessage msg = (TextMessage) message;
                 MESSAGE_ID_TO_ECHO.put(msgId, msg.getContent());
             }
             return msgId;
@@ -122,9 +123,10 @@ public final class DoDoSRV extends JavaPlugin {
         return CompletableFuture.supplyAsync(() -> {
             JsonObject finalJson = JsonUtil.readObject(json);
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
-            if (!(channel instanceof TextChannel textChannel)) {
+            if (!(channel instanceof TextChannel)) {
                 return null;
             }
+            TextChannel textChannel = (TextChannel) channel;
             Field gatewayField;
             try {
                 gatewayField = ChannelImpl.class.getDeclaredField("gateway");
