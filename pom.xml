@@ -38,43 +38,6 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <relocations>
-                                <relocation>
-                                    <pattern>de.themoep.minedown.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.de.themoep.minedown.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.kyori.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.kyori.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.bstats.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.bstats.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>org.apache.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.apache.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.google.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.google.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>com.h2database.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.h2database.
-                                    </shadedPattern>
-                                </relocation>
-                                <relocation>
-                                    <pattern>net.deechael.</pattern>
-                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.deechael.
-                                    </shadedPattern>
-                                </relocation>
-                            </relocations>
                             <finalName>${artifactId}-${version}-final</finalName>
                             <createDependencyReducedPom>true</createDependencyReducedPom>
                             <minimizeJar>false</minimizeJar>
