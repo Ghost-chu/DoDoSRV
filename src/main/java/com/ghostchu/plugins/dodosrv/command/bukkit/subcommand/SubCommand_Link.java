@@ -9,6 +9,7 @@ import net.deechael.dodo.event.EventHandler;
 import net.deechael.dodo.event.personal.PersonalMessageEvent;
 import net.deechael.dodo.types.MessageType;
 import org.bukkit.Bukkit;
+import org.bukkit.OfflinePlayer;
 import org.bukkit.entity.Player;
 import org.bukkit.event.Listener;
 import org.jetbrains.annotations.NotNull;
@@ -25,7 +26,7 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
 
     public SubCommand_Link(DoDoSRV plugin) {
         this.plugin = plugin;
-        Bukkit.getPluginManager().registerEvents(this,plugin);
+        Bukkit.getPluginManager().registerEvents(this, plugin);
         plugin.bot().addEventListener(this);
     }
 
@@ -50,13 +51,14 @@ public class SubCommand_Link implements CommandHandler<Player>, Listener, net.de
         String code = event.getBody().get().getAsJsonObject().get("content").getAsString();
         UUID player = CODE_POOL.getIfPresent(code.trim().toLowerCase());
         if (player != null) {
+            OfflinePlayer offlinePlayer = Bukkit.getOfflinePlayer(player);
             plugin.userBind().bind(player, event.getMember().getId())
                     .thenAccept(errorMessage -> {
                         if (errorMessage != null) {
                             event.getMember().send(plugin.text().of("bind-failure", errorMessage).dodoText());
                             return;
                         }
-                        event.getMember().send(plugin.text().of("bind-success", player).dodoText());
+                        event.getMember().send(plugin.text().of("bind-success", player, offlinePlayer.getName()).dodoText());
                     })
                     .exceptionally(err -> {
                         event.getMember().send(plugin.text().of("internal-error").dodoText());

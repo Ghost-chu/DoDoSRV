@@ -19,6 +19,8 @@ import org.apache.commons.io.FileUtils;
 import org.apache.commons.lang3.StringUtils;
 import org.bukkit.Bukkit;
 
+import java.util.concurrent.ExecutionException;
+
 public class DoDoListener implements Listener {
     private final DoDoSRV plugin;
     private boolean dodoToMinecraftEnabled;
@@ -39,7 +41,7 @@ public class DoDoListener implements Listener {
 
     @EventHandler
     public void onDoDoTextMessage(ChannelMessageEvent event) {
-        if (!dodoToMinecraftEnabled){
+        if (!dodoToMinecraftEnabled) {
             return;
         }
         if (event.getMessageType() != MessageType.TEXT) {
@@ -49,23 +51,48 @@ public class DoDoListener implements Listener {
         if (requriedPrefix != null && !content.startsWith(requriedPrefix)) {
             return;
         }
-        if(!event.getChannelId().equals(plugin.getChatChannel())) {
+        if (!event.getChannelId().equals(plugin.getChatChannel())) {
             return;
         }
+
         Member sender = event.getMember();
         TextChannel channel = (TextChannel) plugin.bot().getClient().fetchChannel(event.getIslandId(), event.getChannelId());
         String channelName = channel.getName();
         Component channelNameComponent = Component.text(channelName);
         Component senderComponent = plugin.dodoManager().getMemberDisplayComponent(event.getIslandId(), sender);
-        Bukkit.broadcastMessage(LegacyComponentSerializer.legacySection().serialize(plugin.text().of("dodo-to-minecraft-format",
-                channelNameComponent,
-                senderComponent,
-                content
-        ).component()));
+        Component msgComponent = plugin.text().dodoToComponent(content).join();
+
+        if (event.getReference() == null) {
+            Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-format",
+                    channelNameComponent,
+                    senderComponent,
+                    msgComponent
+            ).component()));
+        } else {
+            try {
+                Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
+                        plugin.echoCache().get(event.getReference().getMessageId(), () -> "未找到消息"),
+                        channelNameComponent,
+                        senderComponent,
+                        msgComponent
+                ).component()));
+            } catch (ExecutionException e) {
+                Bukkit.spigot().broadcast(BungeeComponentSerializer.get().serialize(plugin.text().of("dodo-to-minecraft-reply-format",
+                        "未找到消息（已过期）",
+                        channelNameComponent,
+                        senderComponent,
+                        msgComponent
+                ).component()));
+            }
+
+        }
+
+
     }
+
     @EventHandler
     public void onDoDoFileMessage(ChannelMessageEvent event) {
-        if (!dodoToMinecraftEnabled){
+        if (!dodoToMinecraftEnabled) {
             return;
         }
         if (event.getMessageType() != MessageType.FILE) {
@@ -76,7 +103,7 @@ public class DoDoListener implements Listener {
         }
         FileMessage message = (FileMessage) event.getBody();
         String fileSize = FileUtils.byteCountToDisplaySize(message.getSize());
-        Component component = Component.text("[文件："+message.getName()+": "+ fileSize+"]");
+        Component component = Component.text("[文件：" + message.getName() + ": " + fileSize + "]");
         component = component.clickEvent(ClickEvent.openUrl(message.getUrl()));
         component = component.hoverEvent(HoverEvent.showText(Component.text("点击在浏览器中打开")));
         Member sender = event.getMember();
@@ -90,9 +117,10 @@ public class DoDoListener implements Listener {
                 component
         ).component()));
     }
+
     @EventHandler
     public void onDoDoImgMessage(ChannelMessageEvent event) {
-        if (!dodoToMinecraftEnabled){
+        if (!dodoToMinecraftEnabled) {
             return;
         }
         if (event.getMessageType() != MessageType.IMAGE) {
@@ -102,7 +130,7 @@ public class DoDoListener implements Listener {
             return;
         }
         ImageMessage message = (ImageMessage) event.getBody();
-        Component component = Component.text("[图片: "+message.getWidth()+"px*"+message.getHeight()+"px]");
+        Component component = Component.text("[图片: " + message.getWidth() + "px*" + message.getHeight() + "px]");
         component = component.clickEvent(ClickEvent.openUrl(message.getUrl()));
         component = component.hoverEvent(HoverEvent.showText(Component.text("点击在浏览器中打开")));
         Member sender = event.getMember();
@@ -116,9 +144,10 @@ public class DoDoListener implements Listener {
                 component
         ).component()));
     }
+
     @EventHandler
     public void onDoDoShareMessage(ChannelMessageEvent event) {
-        if (!dodoToMinecraftEnabled){
+        if (!dodoToMinecraftEnabled) {
             return;
         }
         if (event.getMessageType() != MessageType.SHARE) {
@@ -142,9 +171,10 @@ public class DoDoListener implements Listener {
                 component
         ).component()));
     }
+
     @EventHandler
     public void onDoDoVideoMessage(ChannelMessageEvent event) {
-        if (!dodoToMinecraftEnabled){
+        if (!dodoToMinecraftEnabled) {
             return;
         }
         if (event.getMessageType() != MessageType.VIDEO) {
@@ -168,15 +198,16 @@ public class DoDoListener implements Listener {
                 component
         ).component()));
     }
+
     @EventHandler
     public void onDoDoCardMessage(ChannelMessageEvent event) {
-        if (!dodoToMinecraftEnabled){
+        if (!dodoToMinecraftEnabled) {
             return;
         }
         if (event.getMessageType() != MessageType.CARD) {
             return;
         }
-        if(!event.getChannelId().equals(plugin.getChatChannel())) {
+        if (!event.getChannelId().equals(plugin.getChatChannel())) {
             return;
         }
         Component component = Component.text("[卡片消息]");

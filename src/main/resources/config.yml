@@ -1,34 +1,35 @@
 config-version: 1
 
+# 机器人 Client ID
 client-id: ""
+# 机器人 Token
 bot-token: ""
+# 超级群邀请链接（暂未使用）
 invite-link: "00000000000"
+# MC角色头像 URL，用于在卡片消息中引用 MC 头像
 avatar-url: "https://crafthead.net/avatar/{0}/{1}"
-
+# Dodo超级群配置
 dodo:
+  # Dodo超级群ID
   island-id: ""
+  # 监听的文字频道ID
   chat-channel: "1995351"
 
-#MySQL database settings.
+# 数据库配置
 database:
-  #false = use local H2 database.
-  #true = use local/remote MySQL database.
+  # 使用 MySQL 存储数据，false 则使用嵌入式 H2 本地数据库
   mysql: false
-  # The database address. (Only required if mysql is true)
+  # 下面的配置应该就不用说了吧
   host: localhost
-  # The database port. (Only required if mysql is true)
   port: 3306
-  # The database names. (Only required if mysql is true)
   database: dodosrv
-  # The database username. (Only required if mysql is true)
   user: root
-  # The database password. (Only required if mysql is true)
   password: passwd
-  # Set prefix to "none" to remove prefix (Both local and remote will be used).
+  # 表前缀
   prefix: "dodosrv_"
-  # Should use SSL for database connections?  (Only required if mysql is true)
+  # 使用 SSL
   usessl: false
-  # Properties for creating connections, you can add your own properties for datasource here. (Both local and remote will be used).
+  # 额外配置
   properties:
     connection-timeout: 60000
     validation-timeout: 3000
@@ -43,21 +44,35 @@ database:
     useUnicode: true
     characterEncoding: utf8
     allowPublicKeyRetrieval: true
-
+# 功能控制
 feature:
+  # MC -> DODO 转发
   minecraft-to-dodo:
+    # 启用此功能
     enable: true
+    # 聊天长度截断（未使用的配置项）
     chat-truncate-length: 256
+    # 翻译 AT （未使用的配置项，目前总是翻译）
     translate-mentions: true
+    # 转发前缀，只有聊天消息以下面的字符串开头才会被转发到 Dodo
     require-prefix: ""
+    # 转发
     forward:
+      # 转发聊天
       chat: true
+      # 转发服务器加入提醒
       join: true
+      # 转发服务器退出提醒
       quit: true
+      # 转发死亡信息
       death: true
+      # 转发成就与进度信息
       advancement: true
+  # Dodo 到 MC 的转发
   dodo-to-minecraft:
     enable: true
     translate-mentions: true
-    ignore-users: []
+    # 忽略以下用户的消息（dodoSourceId）（未使用）
+    ignore-users: [ ]
+    # 转发前缀，只有聊天消息以下面的字符串开头才会被转发到 MC，但只针对文本消息有效，其它消息总是转发
     require-prefix: ""

@@ -56,21 +56,21 @@ public final class JsonUtil {
 
     @NotNull
     public static JsonObject readObject(@NotNull Reader reader) {
-        return new JsonParser().parse(reader).getAsJsonObject();
+        return JsonParser.parseReader(reader).getAsJsonObject();
     }
 
     @NotNull
     public static JsonObject readObject(@NotNull String s) {
-        return new JsonParser().parse(s).getAsJsonObject();
+        return JsonParser.parseString(s).getAsJsonObject();
     }
 
     @NotNull
     public static JsonArray readArray(@NotNull String s) {
-        return new JsonParser().parse(s).getAsJsonArray();
+        return JsonParser.parseString(s).getAsJsonArray();
     }
     @NotNull
     public static JsonArray readArray(@NotNull Reader reader) {
-        return new JsonParser().parse(reader).getAsJsonArray();
+        return JsonParser.parseReader(reader).getAsJsonArray();
     }
     public static Gson regular() {
         return STANDARD_GSON;

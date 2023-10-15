@@ -30,19 +30,7 @@
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-shade-plugin</artifactId>
-                <version>3.2.4</version>
-                <configuration>
-                    <relocations>
-                        <relocation>
-                            <pattern>com.google.common</pattern>
-                            <shadedPattern>com.ghostchu.plugins.dodosrv.shade.com.google.common</shadedPattern>
-                        </relocation>
-                        <relocation>
-                            <pattern>ch.qos.logback.</pattern>
-                            <shadedPattern>com.ghostchu.plugins.dodosrv.shade.ch.qos.logback.</shadedPattern>
-                        </relocation>
-                    </relocations>
-                </configuration>
+                <version>3.5.1</version>
                 <executions>
                     <execution>
                         <phase>package</phase>
@@ -50,7 +38,44 @@
                             <goal>shade</goal>
                         </goals>
                         <configuration>
-                            <finalName>${artifactId}-${version}-final-legacy</finalName>
+                            <relocations>
+                                <relocation>
+                                    <pattern>de.themoep.minedown.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.de.themoep.minedown.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.kyori.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.kyori.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.bstats.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.bstats.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>org.apache.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.org.apache.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.google.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.google.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>com.h2database.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.com.h2database.
+                                    </shadedPattern>
+                                </relocation>
+                                <relocation>
+                                    <pattern>net.deechael.</pattern>
+                                    <shadedPattern>com.ghostchu.pluhins.dodosrv.shade.net.deechael.
+                                    </shadedPattern>
+                                </relocation>
+                            </relocations>
+                            <finalName>${artifactId}-${version}-final</finalName>
                             <createDependencyReducedPom>true</createDependencyReducedPom>
                             <minimizeJar>false</minimizeJar>
                             <createSourcesJar>false</createSourcesJar>
@@ -87,10 +112,17 @@
             <id>codemc</id>
             <url>https://repo.codemc.io/repository/nms/</url>
         </repository>
+        <repository>
+            <id>Minecraft</id>
+            <url>https://libraries.minecraft.net/</url>
+        </repository>
+        <repository>
+            <id>minebench-repo</id>
+            <url>https://repo.minebench.de/</url>
+        </repository>
     </repositories>
 
     <dependencies>
-        <!-- https://mvnrepository.com/artifact/mysql/mysql-connector-java -->
         <dependency>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
@@ -271,6 +303,23 @@
             <version>1.7.10</version>
             <scope>system</scope>
             <systemPath>${basedir}/lib/spigot-1.7.10-SNAPSHOT-b1657.jar</systemPath>
+        </dependency>
+        <dependency>
+            <groupId>net.deechael</groupId>
+            <artifactId>dodo</artifactId>
+            <version>1.00.7</version>
+        </dependency>
+        <dependency>
+            <groupId>de.themoep</groupId>
+            <artifactId>minedown-adventure</artifactId>
+            <version>1.7.1-SNAPSHOT</version>
+            <scope>compile</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.spigotmc</groupId>
+            <artifactId>spigot-api</artifactId>
+            <version>1.20.2-R0.1-SNAPSHOT</version>
+            <scope>provided</scope>
         </dependency>
     </dependencies>
 </project>

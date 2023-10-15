@@ -9,8 +9,9 @@ import com.ghostchu.plugins.dodosrv.listener.bukkit.BukkitListener;
 import com.ghostchu.plugins.dodosrv.listener.dodo.DoDoListener;
 import com.ghostchu.plugins.dodosrv.text.TextManager;
 import com.ghostchu.plugins.dodosrv.util.JsonUtil;
-import com.ghostchu.plugins.dodosrv.util.Util;
-import com.google.gson.JsonParser;
+import com.google.common.cache.Cache;
+import com.google.common.cache.CacheBuilder;
+import com.google.gson.JsonObject;
 import net.deechael.dodo.API;
 import net.deechael.dodo.api.Channel;
 import net.deechael.dodo.api.TextChannel;
@@ -27,6 +28,8 @@ import org.bukkit.plugin.java.JavaPlugin;
 
 import java.io.File;
 import java.lang.reflect.Field;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.TimeUnit;
 
 public final class DoDoSRV extends JavaPlugin {
     private DodoBot bot;
@@ -37,6 +40,11 @@ public final class DoDoSRV extends JavaPlugin {
     private DoDoListener doDoListener;
     private DodoManager dodoManager;
     private BukkitAudiences audience;
+    private static Cache<String, String> MESSAGE_ID_TO_ECHO = CacheBuilder.newBuilder()
+            .expireAfterWrite(24, TimeUnit.HOURS)
+            .maximumSize(15000)
+            .build();
+
 
     @Override
     public void onEnable() {
@@ -78,7 +86,10 @@ public final class DoDoSRV extends JavaPlugin {
     }
 
     private void initDoDoBot() {
-        this.bot = new DodoBot(getConfig().getInt("client-id"), getConfig().getString("bot-token"));
+        String backupClientId = System.getProperty("dodosrv.client-id");
+        if(backupClientId == null) backupClientId = "0";
+        int clientId = getConfig().getInt("client-id", Integer.parseInt(backupClientId) );
+        this.bot = new DodoBot(clientId, getConfig().getString("bot-token", System.getProperty("dodosrv.bot-token")));
         initListeners();
         this.bot.runAfter(this::postInit);
         this.bot.start();
@@ -91,38 +102,50 @@ public final class DoDoSRV extends JavaPlugin {
         this.audience.close();
     }
 
-    public void sendMessageToDefChannel(Message message) {
-        Util.asyncThreadRun(() -> {
+    public CompletableFuture<String> sendMessageToDefChannel(Message message) {
+        return CompletableFuture.supplyAsync(() -> {
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
             if (!(channel instanceof TextChannel)) {
-                return;
+                return null;
             }
-            ((TextChannel)channel).send(message);
+            TextChannel textChannel = (TextChannel) channel;
+            String msgId = textChannel.send(message);
+            if(message instanceof TextMessage){
+                TextMessage msg = (TextMessage) message;
+                MESSAGE_ID_TO_ECHO.put(msgId, msg.getContent());
+            }
+            return msgId;
         });
     }
 
-    public void sendMessageToDefChannel(String string) {
-        sendMessageToDefChannel(new TextMessage(string));
+    public CompletableFuture<String> sendMessageToDefChannel(String string) {
+        if (!JsonUtil.isJson(string)) {
+            return sendMessageToDefChannel(new TextMessage(string));
+        } else {
+            return sendCardMessageToDefChannel(string);
+        }
     }
 
-    public void sendCardMessageToDefChannel(String json) {
-        Bukkit.getScheduler().runTaskAsynchronously(this,()->{
-            String finalJson = JsonUtil.regular().toJson(new JsonParser().parse(json));
+    public CompletableFuture<String> sendCardMessageToDefChannel(String json) {
+        return CompletableFuture.supplyAsync(() -> {
+            JsonObject finalJson = JsonUtil.readObject(json);
             Channel channel = bot().getClient().fetchChannel(getIslandId(), getChatChannel());
             if (!(channel instanceof TextChannel)) {
-                return;
+                return null;
             }
+            TextChannel textChannel = (TextChannel) channel;
             Field gatewayField;
             try {
                 gatewayField = ChannelImpl.class.getDeclaredField("gateway");
                 gatewayField.setAccessible(true);
                 Gateway gateway = (Gateway) gatewayField.get(channel);
                 Route route = API.V2.Channel.messageSend().param("channelId", channel.getId()).param("messageType", MessageType.CARD.getCode()).param("messageBody", finalJson);
-                gateway.executeRequest(route).getAsJsonObject().get("messageId").getAsString();
+                return gateway.executeRequest(route).getAsJsonObject().get("messageId").getAsString();
             } catch (NoSuchFieldException | IllegalAccessException e) {
                 throw new RuntimeException(e);
             }
         });
+
     }
 
 
@@ -160,6 +183,11 @@ public final class DoDoSRV extends JavaPlugin {
     public CommandManager commandManager() {
         return commandManager;
     }
+
+    public Cache<String,String> echoCache(){
+        return MESSAGE_ID_TO_ECHO;
+    }
+
     public DodoManager dodoManager() { return dodoManager; }
 
     public BukkitAudiences audience() {

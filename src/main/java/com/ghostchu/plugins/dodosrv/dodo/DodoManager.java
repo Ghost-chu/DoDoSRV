@@ -47,7 +47,7 @@ public class DodoManager extends AbstractCacheable {
         Component level = Component.text(member.getLevel());
         Component onlineStatus = getMemberOnlineStatusComponent(member);
         Component ranks = getMemberRanksComponent(islandId, member);
-        return plugin.text().of("sender-name-hover", username, level, onlineStatus, ranks).component();
+        return plugin.text().of("sender-name-hover", username, level, onlineStatus, ranks,member.getIntegral()).component();
     }
 
     public Component getMemberRanksComponent(String islandId, Member member) {

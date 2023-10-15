@@ -1,23 +1,81 @@
 dodo-to-minecraft-format: "<light_purple>{0}</light_purple> {1} <green>:</green> {2}"
+dodo-to-minecraft-reply-format: "<gray>{0}</gray>\n└回复：<light_purple>{1}</light_purple> {2} <green>:</green> {3}"
 minecraft-to-dodo-format: "{0} >> {1}"
 
 sender-name-hover: |
   <aqua>{0}</aqua>
   <white>Lv.{1} <gray>-</gray> {2}
+  <white>积分：{4}
   {3}
 file-component-hover: |
   <gold>大小: </gold> {0}
 
-player-join-message: "{0} 加入了游戏"
+player-join-message: |
+  {
+  "card": {
+    "type": "card",
+    "components": [
+      {
+        "type": "section",
+        "text": { "type": "dodo-md", "content": "**{0}** 加入了游戏" }
+      }
+    ],
+    "theme": "green"
+  }
+  }
 
 
-player-quit-message: "{0} 离开了游戏"
-player-death-message: "{1}\n死亡位置: {2}"
+player-quit-message: |
+  {
+    "card": {
+      "type": "card",
+      "components": [
+        {
+          "type": "section",
+          "text": { "type": "dodo-md", "content": "**{0}** 离开了游戏" }
+        }
+      ],
+      "theme": "grey"
+    }
+  }
+player-death-message: |
+  {
+    "card": {
+      "type": "card",
+      "components": [
+        {
+          "type": "section",
+          "text": {
+            "type": "dodo-md",
+            "content": "{1}\n**死亡位置：**{2}\n**掉落的物品数量：**{3}\n**掉落的经验值：**{4}"
+          }
+        }
+      ],
+      "theme": "black",
+      "title": "💀{0} 死了"
+    }
+  }
 advancement-message:
   GOAL: "完成了目标"
   TASK: "取得了进度"
   CHALLENGE: "完成了挑战"
-player-unlock-advancement-message: "{0} {1} [{2}]:\n{3}"
+player-unlock-advancement-message: |
+  {
+    "card": {
+      "type": "card",
+      "components": [
+        {
+          "type": "section",
+          "text": {
+            "type": "dodo-md",
+            "content": "{3}"
+          }
+        }
+      ],
+      "theme": "yellow",
+      "title": "🎉{0} {1} [{2}]"
+    }
+  }
 #server-up-message: |
 #  {
 #   "content": "",
@@ -60,10 +118,14 @@ this-minecraft-account-already-bind: "<red>错误：此 Minecraft 角色已绑�
 enter-code-to-bind-dodo: "<green>请在 <yellow>{0}</yellow> 秒内在 DoDo 中将验证码 <aqua>{1}</aqua> 通过 <gold>私信</gold> 方式发送给机器人以完成绑定。"
 this-minecraft-account-had-no-bind: "<red>错误：此 Minecraft 角色未绑定任何 DoDo 账号，无需解绑。"
 bind-failure: "<red>绑定操作失败，原因如下：<gray>{0}</gray>"
-bind-success: "<green>绑定成功，您成功与 <aqua>{0}</aqua> 角色绑定！"
+bind-success: "<green>绑定成功，您成功与 <aqua>{0} ({1})</aqua> 角色绑定！"
 unbind-failure: "<red>解除绑定失败，原因如下：<gray>{0}</gray>"
 unbind-success: "<green>您已成功解除绑定！"
 internal-error: "<red>由于出现了一个内部错误，操作无法完成，请与服务器管理员联系。"
+integral-op-failure-no-bind: "<red>积分操作时出错：您还没有绑定 Dodo 账号，请使用 <yellow>/dodo</yellow> 绑定 Dodo 账号，并联系管理员补偿积分操作 {0}。</red>"
+integral-op-success: "<green>操作成功完成。"
+op-failure-no-dodo-found: "<red>操作出现错误：该 Minecraft 角色所绑定的 Dodo 账号已失效（是否退出了超级群？），请重新绑定。"
+dodo-not-bind: "<red>请先使用 <yellow>/dodo</yellow> 命令绑定您的 Dodo 账号。"
 command:
   format: "<green>/{0} {1} <yellow>- {2}"
   format-disabled: "<red>/{0} {1} <gray>- {2}"
@@ -73,3 +135,4 @@ command:
     link: "<yellow>将此 Minecraft 角色绑定到一个 DoDo 账号上"
     unlink: "<yellow>解除此 Minecraft 角色所绑定的 DoDo 账号"
     code: "<yellow>使用验证码以验证 DoDo 操作"
+    editintegral: "<yellow>编辑用户的 Dodo 积分, <op> <amouunt>, (1=增加 2=扣除) "

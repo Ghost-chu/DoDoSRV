@@ -35,7 +35,7 @@ public class BukkitListener implements Listener {
     }
 
     private String getAvatarLink(UUID uuid) {
-        return Util.fillArgs(plugin.getConfig().getString("avatar-url"), uuid.toString(), "32");
+        return Util.fillArgs(plugin.getConfig().getString("avatar-url"), uuid.toString(), "512");
     }
 
     private boolean allowForward(@NotNull String key) {
@@ -73,7 +73,10 @@ public class BukkitListener implements Listener {
                 event.getEntity().getDisplayName(),
                 event.getDeathMessage(),
                 loc.getWorld().getName() + " " + loc.getBlockX() + ", " + loc.getBlockY() + ", " + loc.getBlockZ(),
-                getAvatarLink(event.getEntity().getUniqueId())).plain();
+                event.getDrops().size(),
+                event.getDroppedExp(),
+                getAvatarLink(event.getEntity().getUniqueId())
+        ).plain();
         plugin.sendMessageToDefChannel(msg);
     }
 
