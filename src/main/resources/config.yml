@@ -76,3 +76,6 @@ feature:
     ignore-users: [ ]
     # 转发前缀，只有聊天消息以下面的字符串开头才会被转发到 MC，但只针对文本消息有效，其它消息总是转发
     require-prefix: ""
+  # 身份组同步
+  rule-sync:
+    - "lpgroup:dodogid"
