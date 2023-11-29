@@ -135,4 +135,4 @@ command:
     link: "<yellow>将此 Minecraft 角色绑定到一个 DoDo 账号上"
     unlink: "<yellow>解除此 Minecraft 角色所绑定的 DoDo 账号"
     code: "<yellow>使用验证码以验证 DoDo 操作"
-    editintegral: "<yellow>编辑用户的 Dodo 积分, <op> <amouunt>, (1=增加 2=扣除) "
+    editintegral: "<yellow>编辑用户的 Dodo 积分, <op> <amount>, (1=增加 2=扣除) "
