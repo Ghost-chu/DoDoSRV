@@ -128,7 +128,7 @@
             <groupId>org.apache.commons</groupId>
             <artifactId>commons-compress</artifactId>
             <scope>provided</scope>
-            <version>1.24.0</version>
+            <version>1.26.0</version>
         </dependency>
         <dependency>
             <groupId>net.kyori</groupId>
